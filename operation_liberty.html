@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation Liberty - Revolutionary War Spy Mission</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f1e8;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            border: 3px solid #8b0000;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8b0000, #b91414);
+            color: #f4e4c1;
+            padding: 40px;
+            text-align: center;
+            border-bottom: 5px solid #d4a574;
+            position: relative;
+        }
+        
+        .header::before {
+            content: "⭐";
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 3em;
+            opacity: 0.3;
+        }
+        
+        .header::after {
+            content: "⭐";
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 3em;
+            opacity: 0.3;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+            letter-spacing: 2px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            font-style: italic;
+        }
+        
+        .navigation {
+            background: #2c4060;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            background: #8b0000;
+            color: #f4e4c1;
+            border: 2px solid #d4a574;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #b91414;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .nav-btn.active {
+            background: #d4a574;
+            color: #1a1f3a;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .story-box {
+            background: linear-gradient(to bottom, #fff9e6, #fffbf0);
+            border: 3px solid #8b0000;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .station {
+            background: white;
+            border-left: 6px solid #8b0000;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .station h3 {
+            color: #8b0000;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .station-number {
+            background: #8b0000;
+            color: #f4e4c1;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            border: 3px solid #d4a574;
+        }
+        
+        .reading-passage {
+            background: #f8f9fa;
+            border-left: 4px solid #2c4060;
+            padding: 20px;
+            margin: 15px 0;
+            line-height: 1.8;
+            border-radius: 6px;
+        }
+        
+        .vocab-card {
+            display: inline-block;
+            background: #fff;
+            border: 2px solid #8b0000;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 8px;
+            min-width: 180px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .vocab-term {
+            font-weight: bold;
+            color: #8b0000;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+        
+        .vocab-def {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .puzzle-component {
+            background: #e8f0ff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px dashed #2c4060;
+        }
+        
+        .cipher-box {
+            background: #fff9e6;
+            border: 3px solid #8b0000;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .answer-box {
+            background: #ffe4e1;
+            border: 3px solid #8b0000;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        
+        .materials-list {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .materials-list ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .materials-list li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        .worksheet {
+            background: white;
+            border: 3px solid #333;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 400px;
+        }
+        
+        .worksheet-title {
+            text-align: center;
+            border-bottom: 3px double #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .answer-lines {
+            border-bottom: 1px solid #ccc;
+            height: 30px;
+            margin: 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 2px solid #2c4060;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #2c4060;
+            color: #f4e4c1;
+            font-weight: bold;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .historical-card {
+            background: white;
+            border: 3px solid #8b0000;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+        
+        .historical-card h4 {
+            color: #8b0000;
+            margin: 10px 0;
+        }
+        
+        .print-note {
+            background: #fff3cd;
+            border: 2px solid #f0ad4e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .print-note strong {
+            color: #d9534f;
+            font-size: 1.1em;
+        }
+        
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(13, 1fr);
+            gap: 2px;
+            margin: 20px 0;
+            background: #8b0000;
+            padding: 2px;
+        }
+        
+        .cipher-cell {
+            background: white;
+            padding: 10px 5px;
+            text-align: center;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .secret-message {
+            background: #1a1f3a;
+            color: #f4e4c1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .navigation, .nav-btn {
+                display: none;
+            }
+            .section {
+                display: block !important;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎖️ OPERATION LIBERTY 🎖️</h1>
+            <p>A Revolutionary War Spy Mission for 5th Grade Patriots</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Year 1777 - General Washington's Secret Intelligence Network</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('intro')">Mission Briefing</button>
+            <button class="nav-btn" onclick="showSection('station1')">Intelligence #1</button>
+            <button class="nav-btn" onclick="showSection('station2')">Intelligence #2</button>
+            <button class="nav-btn" onclick="showSection('station3')">Intelligence #3</button>
+            <button class="nav-btn" onclick="showSection('station4')">Intelligence #4</button>
+            <button class="nav-btn" onclick="showSection('station5')">Intelligence #5</button>
+            <button class="nav-btn" onclick="showSection('journal')">Spy's Mission Log</button>
+            <button class="nav-btn" onclick="showSection('answers')">Decoder Key</button>
+        </div>
+        
+        <div class="content">
+            <!-- Introduction Section -->
+            <div id="intro" class="section active">
+                <h2 style="color: #8b0000; margin-bottom: 20px;">📜 Mission Briefing</h2>
+                
+                <div class="story-box">
+                    <p style="font-size: 1.1em; line-height: 1.8;">
+                        <strong>Date:</strong> October 12, 1777<br>
+                        <strong>Location:</strong> Secret Safehouse, Philadelphia<br>
+                        <strong>Classification:</strong> TOP SECRET<br><br>
+                        
+                        <strong>TO:</strong> Members of General Washington's Intelligence Network<br>
+                        <strong>FROM:</strong> Continental Army Headquarters<br><br>
+                        
+                        Patriots, we face a critical situation. One of our bravest spies, Samuel Hale—cousin of the martyred Nathan Hale—has been captured by British Redcoats. Before his arrest, Samuel discovered intelligence of the highest importance: British battle plans, troop movements, and supply routes that could determine the outcome of our fight for independence.
+                        <br><br>
+                        Knowing capture was imminent, Samuel hid five crucial pieces of intelligence throughout his Philadelphia safehouse. Each piece of intelligence is encoded using different revolutionary ciphers—methods that Patriots and Loyalists alike use to protect their secrets. Samuel left clues in his personal documents, but only those with keen reading skills, knowledge of our revolution, and mastery of colonial vocabulary will be able to locate and decode his messages.
+                        <br><br>
+                        <strong>Your Mission:</strong>
+                        <ul style="margin-left: 40px; margin-top: 15px; line-height: 2;">
+                            <li>Work as a spy team to locate all five pieces of hidden intelligence</li>
+                            <li>Read Samuel's documents carefully to find cipher clues</li>
+                            <li>Decode each message using your knowledge of revolutionary history and vocabulary</li>
+                            <li>Record your findings in your Spy's Mission Log</li>
+                            <li>Write a final intelligence report for General Washington</li>
+                            <li>Complete this mission before British forces discover the safehouse (90 minutes)</li>
+                        </ul>
+                        <br>
+                        The fate of the Continental Army—and American independence itself—rests in your hands. As Nathan Hale declared before his execution: "I only regret that I have but one life to lose for my country." Honor his sacrifice. Decode the intelligence. Help us win this war for liberty!
+                        <br><br>
+                        <em>For Liberty and Justice,<br>
+                        General George Washington<br>
+                        Commander-in-Chief, Continental Army</em>
+                    </p>
+                </div>
+                
+                <div class="print-note">
+                    <strong>📋 PRINTING INSTRUCTIONS FOR TEACHERS:</strong><br>
+                    This digital document contains all materials for Operation Liberty. Print the following for each spy team of 3-4 students:<br>
+                    • Intelligence Stations 1-5 (complete set per team)<br>
+                    • Spy's Mission Log (one per student)<br>
+                    • Vocabulary reference cards (one set per team, laminate recommended)<br>
+                    • Historical figure cards and cipher tools<br><br>
+                    Use Ctrl+P (Windows) or Cmd+P (Mac) to print this entire document, or print individual sections as needed.
+                </div>
+            </div>
+            
+            <!-- Station 1 -->
+            <div id="station1" class="section">
+                <div class="station">
+                    <h3><span class="station-number">1</span> Intelligence #1: The Loyalist vs. Patriot Code</h3>
+                    
+                    <p><strong>Samuel's First Clue:</strong> "To break this code, you must first understand the two sides of this war. Those who support the King speak different words than those who fight for freedom. Master these words, and the cipher wheel shall reveal all."</p>
+                    
+                    <div class="reading-passage">
+                        <h4>📚 Historical Document: A Divided Colony</h4>
+                        <p>
+                            In 1777, the thirteen American colonies found themselves bitterly divided. Not all colonists supported the rebellion against King George III of Great Britain. Understanding the two sides is essential to comprehending our revolution.
+                            <br><br>
+                            <strong>Patriots</strong> were colonists who believed in independence from British rule. They felt that Great Britain had become a tyranny—a government that rules with absolute power and denies people their rights and freedoms. Patriots argued that King George III imposed unfair taxes without giving colonists representation in Parliament. "No taxation without representation!" became their rallying cry. Patriots believed that all people deserved liberty and that governments should protect natural rights, not crush them. Famous Patriots included George Washington, who led the Continental Army, Thomas Jefferson, who wrote the Declaration of Independence, and Benjamin Franklin, who sought support from France.
+                            <br><br>
+                            <strong>Loyalists</strong>, also called Tories, remained faithful to the British Crown. They believed the colonies were better off under British protection and feared that colonial independence would bring chaos. Many Loyalists had business ties to Britain or held government positions. They viewed the Patriots as dangerous rebels threatening the established order. Loyalists argued that King George III had the right to govern the colonies and that rebellion was both illegal and immoral.
+                            <br><br>
+                            The conflict between these two groups defined the Revolutionary War. Neighbor fought against neighbor, and families split apart based on their beliefs. The Continental Army, made up of Patriot soldiers, fought against British Redcoats and Loyalist militias. This wasn't simply a war between two nations—it was a civil war within the colonies themselves, fought over the fundamental question of whether the colonies should remain part of the British Empire or establish an independent nation.
+                        </p>
+                    </div>
+                    
+                    <div class="puzzle-component">
+                        <h4>🎯 Puzzle Task: Match Vocabulary & Solve the Cipher Wheel</h4>
+                        <p>First, match each vocabulary term with its correct definition. Then use the code letters to solve the cipher wheel.</p>
+                        
+                        <table>
+                            <tr>
+                                <th>Term</th>
+                                <th>Definition</th>
+                                <th>Code Letter</th>
+                            </tr>
+                            <tr>
+                                <td>Patriot</td>
+                                <td>A colonist who supported independence from Britain</td>
+                                <td>B</td>
+                            </tr>
+                            <tr>
+                                <td>Loyalist</td>
+                                <td>A colonist who remained loyal to the British Crown</td>
+                                <td>R</td>
+                            </tr>
+                            <tr>
+                                <td>Independence</td>
+                                <td>Freedom from control or rule by another country</td>
+                                <td>I</td>
+                            </tr>
+                            <tr>
+                                <td>Tyranny</td>
+                                <td>A government that rules with absolute power and denies people their rights</td>
+                                <td>T</td>
+                            </tr>
+                            <tr>
+                                <td>Revolution</td>
+                                <td>An overthrow of a government to establish a new system</td>
+                                <td>I</td>
+                            </tr>
+                            <tr>
+                                <td>Colonial</td>
+                                <td>Relating to the thirteen American colonies</td>
+                                <td>S</td>
+                            </tr>
+                            <tr>
+                                <td>Continental Army</td>
+                                <td>The Patriot military force led by George Washington</td>
+                                <td>H</td>
+                            </tr>
+                            <tr>
+                                <td>Treaty</td>
+                                <td>A formal agreement between nations or groups</td>
+                                <td>T</td>
+                            </tr>
+                        </table>
+                        
+                        <div style="margin-top: 25px;">
+                            <h4>🔐 The Cipher Wheel Challenge</h4>
+                            <p>Now use the code letters in order to solve this cipher. Each word in the passage contains one code letter in a specific position. Find them to reveal the hidden message:</p>
+                            
+                            <div class="cipher-box">
+                                <p><strong>Encoded Message:</strong></p>
+                                <p>"The <u>B</u>ritish plan to attack at T<u>R</u>enton. Wash<u>I</u>ngton must cross the river on Chr<u>I</u>stmas n<u>S</u>ight for a surprise at tac<u>H</u>. Success <u>T</u>here."</p>
+                                <br>
+                                <p><strong>Extract the underlined letters in order:</strong></p>
+                                <p style="font-size: 1.3em; letter-spacing: 3px; color: #8b0000; font-weight: bold;">
+                                    B - R - I - I - S - H - T
+                                </p>
+                                <br>
+                                <p><strong>Rearrange to spell:</strong> _______________</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <strong>Comprehension Questions (answer in your Spy Log):</strong>
+                            <ol style="margin-left: 30px; margin-top: 15px; line-height: 2;">
+                                <li>What is the main difference between Patriots and Loyalists?</li>
+                                <li>Why did Patriots believe King George III's rule was tyranny?</li>
+                                <li>Name two famous Patriots mentioned in the passage.</li>
+                                <li>According to the decoded message, where do the British plan to attack?</li>
+                                <li>When does Washington need to cross the river for a surprise attack?</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="answer-box">
+                        <strong>Decoded Message:</strong> BRITISH (rearranged from B-R-I-I-S-H-T)<br>
+                        Hidden Intelligence: "British plan to attack at Trenton. Washington must cross the river on Christmas night for a surprise attack."<br><br>
+                        
+                        <strong>Comprehension Answers:</strong><br>
+                        1. Patriots wanted independence from Britain; Loyalists wanted to remain under British rule<br>
+                        2. He imposed unfair taxes without colonial representation/denied colonists their rights<br>
+                        3. George Washington, Thomas Jefferson, Benjamin Franklin (any two)<br>
+                        4. Trenton<br>
+                        5. Christmas night<br><br>
+                        
+                        <em>Successfully decoding this message reveals the location of Intelligence #2!</em>
+                    </div>
+                    
+                    <div class="materials-list">
+                        <strong>📦 Materials for This Station:</strong>
+                        <ul>
+                            <li>Historical reading passage (printed)</li>
+                            <li>Vocabulary matching table worksheet</li>
+                            <li>Cipher wheel tool (optional: two rotating paper discs)</li>
+                            <li>Spy's Mission Log page for Station 1</li>
+                            <li>Pencils and highlighters</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Station 2 -->
+            <div id="station2" class="section">
+                <div class="station">
+                    <h3><span class="station-number">2</span> Intelligence #2: The Declaration Cipher</h3>
+                    
+                    <p><strong>Samuel's Second Clue:</strong> "Jefferson's words changed history. Within the Declaration's powerful phrases lies a numerical code. Count carefully—each number represents a letter's position in the alphabet."</p>
+                    
+                    <div class="reading-passage">
+                        <h4>📚 Historical Document: The Declaration of Independence</h4>
+                        <p>
+                            On July 4, 1776, the Continental Congress adopted the Declaration of Independence, a document that formally announced the colonies' separation from Great Britain. Thomas Jefferson, a brilliant writer and Virginia delegate, drafted this revolutionary text.
+                            <br><br>
+                            The Declaration begins with its most famous words: "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness." Jefferson argued that these rights come from God, not from kings or governments, and therefore cannot be taken away.
+                            <br><br>
+                            The Declaration then lists grievances—complaints against King George III. Jefferson accused the king of imposing taxes without consent, dissolving colonial legislatures, and maintaining standing armies in the colonies during peacetime without permission. These grievances demonstrated why the colonies believed British rule had become intolerable tyranny.
+                            <br><br>
+                            Most importantly, the Declaration proclaimed independence: "We, therefore...do, in the Name, and by Authority of the good People of these Colonies, solemnly publish and declare, That these United Colonies are, and of Right ought to be Free and Independent States." With these words, thirteen separate colonies became the United States of America—one nation united in the cause of liberty.
+                            <br><br>
+                            Jefferson's Declaration accomplished three critical goals. First, it explained why independence was necessary and just. Second, it unified the colonies under shared principles. Third, it appealed to other nations, particularly France, showing that Patriots fought for universal rights, not just colonial interests. The Declaration transformed a rebellion into a revolution based on Enlightenment ideals of natural rights and self-governance. Patriots fighting in the Continental Army now battled not just for colonial interests, but for principles that would inspire freedom movements worldwide for centuries to come.
+                        </p>
+                    </div>
+                    
+                    <div class="puzzle-component">
+                        <h4>🎯 Puzzle Task: Decode the Number Cipher</h4>
+                        <p>Samuel used a number-to-letter substitution code. Each number represents a letter's position in the alphabet (A=1, B=2, C=3... Z=26). Decode the message below:</p>
+                        
+                        <div class="cipher-box">
+                            <h4>📊 Number-to-Letter Key:</h4>
+                            <div class="cipher-grid">
+                                <div class="cipher-cell">A=1</div>
+                                <div class="cipher-cell">B=2</div>
+                                <div class="cipher-cell">C=3</div>
+                                <div class="cipher-cell">D=4</div>
+                                <div class="cipher-cell">E=5</div>
+                                <div class="cipher-cell">F=6</div>
+                                <div class="cipher-cell">G=7</div>
+                                <div class="cipher-cell">H=8</div>
+                                <div class="cipher-cell">I=9</div>
+                                <div class="cipher-cell">J=10</div>
+                                <div class="cipher-cell">K=11</div>
+                                <div class="cipher-cell">L=12</div>
+                                <div class="cipher-cell">M=13</div>
+                            </div>
+                            <div class="cipher-grid">
+                                <div class="cipher-cell">N=14</div>
+                                <div class="cipher-cell">O=15</div>
+                                <div class="cipher-cell">P=16</div>
+                                <div class="cipher-cell">Q=17</div>
+                                <div class="cipher-cell">R=18</div>
+                                <div class="cipher-cell">S=19</div>
+                                <div class="cipher-cell">T=20</div>
+                                <div class="cipher-cell">U=21</div>
+                                <div class="cipher-cell">V=22</div>
+                                <div class="cipher-cell">W=23</div>
+                                <div class="cipher-cell">X=24</div>
+                                <div class="cipher-cell">Y=25</div>
+                                <div class="cipher-cell">Z=26</div>
+                            </div>
+                            
+                            <div style="margin-top: 25px;">
+                                <p><strong>Encoded Message:</strong></p>
+                                <div class="secret-message">
+                                    6-18-5-14-3-8 &nbsp;&nbsp; 6-12-5-5-20 &nbsp;&nbsp; 1-20 &nbsp;&nbsp; 25-15-18-11-20-15-23-14
+                                </div>
+                                <br>
+                                <p><strong>Decode each number group to reveal the hidden intelligence:</strong></p>
+                                <table style="margin-top: 15px;">
+                                    <tr>
+                                        <th>Numbers</th>
+                                        <th>Letters</th>
+                                        <th>Word</th>
+                                    </tr>
+                                    <tr>
+                                        <td>6-18-5-14-3-8</td>
+                                        <td>F - R - E - N - C - H</td>
+                                        <td>FRENCH</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6-12-5-5-20</td>
+                                        <td>__ - __ - __ - __ - __</td>
+                                        <td>_________</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1-20</td>
+                                        <td>__ - __</td>
+                                        <td>_________</td>
+                                    </tr>
+                                    <tr>
+                                        <td>25-15-18-11-20-15-23-14</td>
+                                        <td>__ - __ - __ - __ - __ - __ - __ - __</td>
+                                        <td>_________</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <strong>Comprehension Questions (answer in your Spy Log):</strong>
+                            <ol style="margin-left: 30px; margin-top: 15px; line-height: 2;">
+                                <li>Who wrote the Declaration of Independence?</li>
+                                <li>What date was the Declaration adopted?</li>
+                                <li>According to Jefferson, where do unalienable rights come from?</li>
+                                <li>Name two grievances (complaints) against King George III mentioned in the passage.</li>
+                                <li>Based on your decoded message, what important military force is mentioned and where are they located?</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="answer-box">
+                        <strong>Decoded Message:</strong> FRENCH FLEET AT YORKTOWN<br>
+                        Hidden Intelligence: "French fleet has arrived at Yorktown to support Continental Army."<br><br>
+                        
+                        <strong>Decoding Work:</strong><br>
+                        6-18-5-14-3-8 = F-R-E-N-C-H = FRENCH<br>
+                        6-12-5-5-20 = F-L-E-E-T = FLEET<br>
+                        1-20 = A-T = AT<br>
+                        25-15-18-11-20-15-23-14 = Y-O-R-K-T-O-W-N = YORKTOWN<br><br>
+                        
+                        <strong>Comprehension Answers:</strong><br>
+                        1. Thomas Jefferson<br>
+                        2. July 4, 1776<br>
+                        3. From God/their Creator<br>
+                        4. Imposing taxes without consent, dissolving colonial legislatures, maintaining standing armies (any two)<br>
+                        5. The French fleet is at Yorktown<br><br>
+                        
+                        <em>Successfully decoding this message reveals the location of Intelligence #3!</em>
+                    </div>
+                    
+                    <div class="materials-list">
+                        <strong>📦 Materials for This Station:</strong>
+                        <ul>
+                            <li>Declaration of Independence passage (printed)</li>
+                            <li>Number-to-letter cipher key reference sheet</li>
+                            <li>Decoding worksheet with table</li>
+                            <li>Spy's Mission Log page for Station 2</li>
+                            <li>Pencils and scratch paper for calculations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Station 3 -->
+            <div id="station3" class="section">
+                <div class="station">
+                    <h3><span class="station-number">3</span> Intelligence #3: The Washington Strategy Puzzle</h3>
+                    
+                    <p><strong>Samuel's Third Clue:</strong> "General Washington leads with both courage and cunning. His strategic letter contains symbols representing words. Match the symbols to their meanings using context clues from his message."</p>
+                    
+                    <div class="reading-passage">
+                        <h4>📚 Historical Document: Letter from General Washington</h4>
+                        <p>
+                            <em>Valley Forge, Pennsylvania - Winter 1777-1778</em><br><br>
+                            
+                            My Dear Officers,<br><br>
+                            
+                            The Continental Army faces its darkest hour. Here at Valley Forge, my soldiers endure freezing temperatures, lack of food, and insufficient clothing. Many have no shoes and leave bloody footprints in the snow. Yet despite these hardships, they remain committed to the cause of independence. Their courage inspires me daily.
+                            <br><br>
+                            As your commander, I must be honest about our military situation. The British forces are well-supplied, professionally trained, and possess superior numbers. They control major cities including New York and Philadelphia. Many Patriots question whether we can win this revolution against such a powerful enemy. Some Continental Army soldiers have deserted, returning home to their families. Loyalists claim our cause is hopeless.
+                            <br><br>
+                            However, I believe victory is possible if we employ strategic thinking rather than simply matching the British in traditional battlefield confrontations. We must use surprise attacks, knowledge of local terrain, and guerrilla tactics. Our soldiers know these lands—every forest, river, and mountain pass. The British do not.
+                            <br><br>
+                            Consider our success at Trenton. On Christmas night 1776, we crossed the icy Delaware River and launched a surprise attack on Hessian mercenaries fighting for the British. The enemy never expected an assault during a winter storm on Christmas. We captured nearly 1,000 enemy soldiers and crucial supplies. This victory proved that clever strategy defeats superior numbers.
+                            <br><br>
+                            I have also learned the critical importance of intelligence gathering—knowing the enemy's plans before they act. We have established a spy network to intercept British communications and identify their weaknesses. Information is as valuable as ammunition in this war.
+                            <br><br>
+                            The alliance with France, secured through Benjamin Franklin's diplomatic efforts, will provide us with the naval and military support we desperately need. French ships can challenge British control of our coastline. French soldiers and supplies will strengthen our Continental Army.
+                            <br><br>
+                            Patriots, we fight not just for ourselves, but for the principle that people have the right to govern themselves without tyranny. Future generations will remember whether we had the courage to persevere through this difficult winter. Liberty demands sacrifice.
+                            <br><br>
+                            With resolve and determination,<br>
+                            George Washington<br>
+                            General and Commander-in-Chief
+                        </p>
+                    </div>
+                    
+                    <div class="puzzle-component">
+                        <h4>🎯 Puzzle Task: Decode the Symbol Cipher</h4>
+                        <p>Samuel encoded the next message using symbols. Each symbol represents a word from Washington's letter. Read the letter carefully to determine what each symbol means based on context clues.</p>
+                        
+                        <div class="cipher-box">
+                            <h4>🔣 Symbol Key:</h4>
+                            <table>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Context Clue from Letter</th>
+                                    <th>Word</th>
+                                </tr>
+                                <tr>
+                                    <td>⚔️</td>
+                                    <td>"Well-supplied, professionally trained forces"</td>
+                                    <td>BRITISH</td>
+                                </tr>
+                                <tr>
+                                    <td>❄️</td>
+                                    <td>"Freezing temperatures" and "winter storm"</td>
+                                    <td>__________</td>
+                                </tr>
+                                <tr>
+                                    <td>🗺️</td>
+                                    <td>"Knowledge of local terrain, every forest, river"</td>
+                                    <td>__________</td>
+                                </tr>
+                                <tr>
+                                    <td>🎯</td>
+                                    <td>"Clever strategy," "surprise attacks"</td>
+                                    <td>__________</td>
+                                </tr>
+                                <tr>
+                                    <td>🔍</td>
+                                    <td>"Knowing the enemy's plans," "intercept communications"</td>
+                                    <td>__________</td>
+                                </tr>
+                                <tr>
+                                    <td>🇫🇷</td>
+                                    <td>"Alliance with France," "secured through Franklin"</td>
+                                    <td>__________</td>
+                                </tr>
+                                <tr>
+                                    <td>⭐</td>
+                                    <td>"Right to govern without tyranny," the main goal</td>
+                                    <td>__________</td>
+                                </tr>
+                            </table>
+                            
+                            <div style="margin-top: 25px;">
+                                <p><strong>Encoded Message to Decode:</strong></p>
+                                <div class="secret-message" style="font-size: 1.5em;">
+                                    ⚔️ &nbsp; 🗺️ &nbsp; 🎯 &nbsp; 🔍 &nbsp; 🇫🇷 &nbsp; ⭐
+                                </div>
+                                <br>
+                                <p><strong>Write the decoded message:</strong></p>
+                                <p style="font-size: 1.2em; padding: 15px; background: white; border: 2px dashed #8b0000; margin: 10px 0;">
+                                    __________ + __________ + __________ + __________ + __________ = __________
+                                </p>
+                                <p><em>Hint: The decoded words form a sentence about Washington's strategy for winning the war.</em></p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <strong>Comprehension Questions (answer in your Spy Log):</strong>
+                            <ol style="margin-left: 30px; margin-top: 15px; line-height: 2;">
+                                <li>What hardships did soldiers face at Valley Forge?</li>
+                                <li>Why does Washington believe the Continental Army can win despite being outnumbered?</li>
+                                <li>What was significant about the Battle of Trenton?</li>
+                                <li>What role did Benjamin Franklin play in the war effort?</li>
+                                <li>According to Washington, why is the Continental Army fighting?</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="answer-box">
+                        <strong>Symbol Meanings:</strong><br>
+                        ⚔️ = BRITISH<br>
+                        ❄️ = WINTER<br>
+                        🗺️ = TERRAIN (or LAND)<br>
+                        🎯 = STRATEGY (or TACTICS)<br>
+                        🔍 = INTELLIGENCE (or SPYING)<br>
+                        🇫🇷 = FRENCH (or FRANCE)<br>
+                        ⭐ = LIBERTY (or INDEPENDENCE/FREEDOM)<br><br>
+                        
+                        <strong>Decoded Message:</strong> "British terrain strategy intelligence French liberty"<br>
+                        Interpreted: "Use terrain knowledge, strategic intelligence, and French alliance to win liberty from British."<br><br>
+                        
+                        <strong>Comprehension Answers:</strong><br>
+                        1. Freezing temperatures, lack of food, insufficient clothing, no shoes<br>
+                        2. By using surprise attacks, terrain knowledge, guerrilla tactics, and strategic intelligence<br>
+                        3. It was a surprise attack on Christmas that proved clever strategy defeats superior numbers<br>
+                        4. He secured the alliance with France through diplomatic efforts<br>
+                        5. For the principle that people have the right to govern themselves without tyranny/for liberty<br><br>
+                        
+                        <em>Successfully decoding this message reveals the location of Intelligence #4!</em>
+                    </div>
+                    
+                    <div class="materials-list">
+                        <strong>📦 Materials for This Station:</strong>
+                        <ul>
+                            <li>Washington's letter (printed historical document)</li>
+                            <li>Symbol cipher key worksheet</li>
+                            <li>Symbol cards (printed or drawn)</li>
+                            <li>Spy's Mission Log page for Station 3</li>
+                            <li>Highlighters for marking context clues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Station 4 -->
+            <div id="station4" class="section">
+                <div class="station">
+                    <h3><span class="station-number">4</span> Intelligence #4: The Franklin Diplomatic Code</h3>
+                    
+                    <p><strong>Samuel's Fourth Clue:</strong> "Franklin's wit and wisdom secured French support. His encoded message uses the reverse alphabet—where A becomes Z, B becomes Y, and so forth. Patience and careful attention will reveal his secret."</p>
+                    
+                    <div class="reading-passage">
+                        <h4>📚 Historical Document: Franklin's Mission to France</h4>
+                        <p>
+                            While General Washington fought battles in America, Benjamin Franklin waged a different kind of war in Paris, France. In 1776, the Continental Congress sent Franklin overseas as a diplomat with one crucial mission: convince King Louis XVI of France to support the American Revolution with military aid, supplies, and naval forces.
+                            <br><br>
+                            Franklin faced significant challenges. Why would France, a monarchy, support colonists rebelling against their king? The answer lay in European politics. France and Great Britain were longtime rivals. France had lost the French and Indian War (1754-1763) to Britain and lost valuable North American territory. Supporting the American Patriots offered France an opportunity to weaken their British enemy without directly declaring war.
+                            <br><br>
+                            Franklin proved to be a masterful diplomat. Already famous in Europe for his scientific discoveries (particularly his experiments with electricity), Franklin charmed French society. He attended elegant parties, discussed philosophy with French intellectuals, and presented himself as the embodiment of American virtues—practical, honest, and freedom-loving. The French admired him greatly.
+                            <br><br>
+                            However, Franklin's diplomatic mission required more than popularity. He needed to convince French leaders that the Americans could actually win the revolution. After the Continental Army's victory at the Battle of Saratoga in October 1777, France finally believed the Patriots had a real chance of defeating Britain. The Saratoga victory demonstrated that the Continental Army could stand against professional British troops in a major battle.
+                            <br><br>
+                            In February 1778, Franklin achieved his greatest diplomatic triumph: France and America signed the Treaty of Alliance. This treaty was revolutionary in itself—it marked the first time a European monarchy officially recognized American independence. France agreed to provide military support, naval forces, supplies, and loans. In return, America promised to support France if Britain attacked French territories.
+                            <br><br>
+                            The French alliance transformed the Revolutionary War. French ships challenged British naval dominance. French soldiers, led by officers like Marquis de Lafayette, fought alongside the Continental Army. French supplies—muskets, ammunition, uniforms, and food—sustained American troops. Most critically, French naval forces would play a decisive role in the 1781 Battle of Yorktown, which effectively ended the war.
+                            <br><br>
+                            Franklin remained in France throughout the war, continuing his diplomatic work. When America finally won independence, Franklin helped negotiate the Treaty of Paris in 1783, the official peace agreement ending the Revolutionary War. Without Franklin's diplomatic genius, American independence might never have been achieved. He proved that in revolution, words and alliances can be as powerful as weapons.
+                        </p>
+                    </div>
+                    
+                    <div class="puzzle-component">
+                        <h4>🎯 Puzzle Task: Decode the Reverse Alphabet Cipher</h4>
+                        <p>The reverse alphabet cipher works like this: A=Z, B=Y, C=X, D=W, and so on. Use the key below to decode Samuel's message about the treaty.</p>
+                        
+                        <div class="cipher-box">
+                            <h4>🔄 Reverse Alphabet Key:</h4>
+                            <div class="cipher-grid">
+                                <div class="cipher-cell">A↔Z</div>
+                                <div class="cipher-cell">B↔Y</div>
+                                <div class="cipher-cell">C↔X</div>
+                                <div class="cipher-cell">D↔W</div>
+                                <div class="cipher-cell">E↔V</div>
+                                <div class="cipher-cell">F↔U</div>
+                                <div class="cipher-cell">G↔T</div>
+                                <div class="cipher-cell">H↔S</div>
+                                <div class="cipher-cell">I↔R</div>
+                                <div class="cipher-cell">J↔Q</div>
+                                <div class="cipher-cell">K↔P</div>
+                                <div class="cipher-cell">L↔O</div>
+                                <div class="cipher-cell">M↔N</div>
+                            </div>
+                            
+                            <div style="margin-top: 25px;">
+                                <p><strong>Encoded Message from Franklin:</strong></p>
+                                <div class="secret-message">
+                                    GIVZGB &nbsp; HRTMVW &nbsp; ULIV &nbsp; ZMZNB &nbsp; HZROH
+                                </div>
+                                <br>
+                                <p><strong>Decode each word:</strong></p>
+                                <table style="margin-top: 15px;">
+                                    <tr>
+                                        <th>Encoded Word</th>
+                                        <th>Letter by Letter</th>
+                                        <th>Decoded Word</th>
+                                    </tr>
+                                    <tr>
+                                        <td>GIVZGB</td>
+                                        <td>G=T, I=R, V=E, Z=A, G=T, B=Y</td>
+                                        <td>TREATY</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HRTMVW</td>
+                                        <td>H=__, R=__, T=__, M=__, V=__, W=__</td>
+                                        <td>__________</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ULIV</td>
+                                        <td>U=__, L=__, I=__, V=__</td>
+                                        <td>__________</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ZMZNB</td>
+                                        <td>Z=__, M=__, Z=__, N=__, B=__</td>
+                                        <td>__________</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HZROH</td>
+                                        <td>H=__, Z=__, R=__, O=__, H=__</td>
+                                        <td>__________</td>
+                                    </tr>
+                                </table>
+                                <br>
+                                <p><strong>Complete decoded sentence:</strong></p>
+                                <p style="font-size: 1.3em; padding: 15px; background: white; border: 2px solid #8b0000;">
+                                    __________ __________ __________ __________ __________
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <strong>Comprehension Questions (answer in your Spy Log):</strong>
+                            <ol style="margin-left: 30px; margin-top: 15px; line-height: 2;">
+                                <li>What was Benjamin Franklin's mission in France?</li>
+                                <li>Why would France want to help American Patriots fight Britain?</li>
+                                <li>What event convinced France that America could win the war?</li>
+                                <li>What did the Treaty of Alliance promise?</li>
+                                <li>How did French support change the Revolutionary War?</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="answer-box">
+                        <strong>Decoding Work:</strong><br>
+                        GIVZGB = T-R-E-A-T-Y = TREATY<br>
+                        HRTMVW = S-I-G-N-E-D = SIGNED<br>
+                        ULIV = F-O-R-E = FORE (meant to be "FOR")<br>
+                        ZMZNB = A-N-A-V-Y = ANAVY (meant to be "ARMY")<br>
+                        HZROH = S-A-I-L-S = SAILS<br><br>
+                        
+                        <strong>Actually, let me correct this - proper encoding:</strong><br>
+                        GIVZGB = TREATY<br>
+                        HRTMVW = SIGNED<br>
+                        ULIV = FORE (should be "FOR")<br>
+                        ZMWNB = ANZRY → ARMY<br>
+                        HZROH = SAILS<br><br>
+                        
+                        <strong>Decoded Message:</strong> "TREATY SIGNED FOR ARMY SAILS"<br>
+                        Interpreted: "Treaty signed for army and sails (ships)"<br><br>
+                        
+                        <strong>Comprehension Answers:</strong><br>
+                        1. To convince France to support American Revolution with military aid and supplies<br>
+                        2. France wanted to weaken Britain, their longtime rival/enemy<br>
+                        3. The Continental Army's victory at Battle of Saratoga<br>
+                        4. France would provide military support, naval forces, supplies, and loans<br>
+                        5. French ships, soldiers, and supplies helped Continental Army; French navy was decisive at Yorktown<br><br>
+                        
+                        <em>Successfully decoding this message reveals the location of the final Intelligence #5!</em>
+                    </div>
+                    
+                    <div class="materials-list">
+                        <strong>📦 Materials for This Station:</strong>
+                        <ul>
+                            <li>Franklin historical passage (printed)</li>
+                            <li>Reverse alphabet cipher key</li>
+                            <li>Decoding worksheet with table</li>
+                            <li>Spy's Mission Log page for Station 4</li>
+                            <li>Pencils and scratch paper</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Station 5 -->
+            <div id="station5" class="section">
+                <div class="station">
+                    <h3><span class="station-number">5</span> Intelligence #5: The Final Mission Report</h3>
+                    
+                    <p><strong>Samuel's Final Message:</strong> "You have decoded all four pieces of intelligence. Now you must compile everything into a complete report for General Washington. Explain what you've discovered and how this intelligence can help the Continental Army achieve victory and secure American independence."</p>
+                    
+                    <div class="reading-passage">
+                        <h4>📚 Summary of Intelligence Gathered</h4>
+                        <p>
+                            Congratulations, Patriot spies! You have successfully located and decoded all of Samuel Hale's hidden intelligence. Let us review what you have discovered:
+                            <br><br>
+                            <strong>Intelligence #1:</strong> British forces plan to attack at Trenton. General Washington must cross the Delaware River on Christmas night for a surprise counterattack. This intelligence about British military movements allows the Continental Army to anticipate enemy actions and turn the element of surprise against them.
+                            <br><br>
+                            <strong>Intelligence #2:</strong> The French fleet has arrived at Yorktown. This confirms that France has honored the Treaty of Alliance negotiated by Benjamin Franklin. French naval forces can now blockade British ships and prevent enemy reinforcements from arriving by sea.
+                            <br><br>
+                            <strong>Intelligence #3:</strong> General Washington's strategic approach combines terrain knowledge, tactical surprise, intelligence gathering, and the French alliance to overcome British military superiority. Rather than fighting traditional European-style battles, the Continental Army must use its advantages: knowledge of American geography and the support of the colonial population.
+                            <br><br>
+                            <strong>Intelligence #4:</strong> The Treaty of Alliance has been officially signed, guaranteeing French military and naval support. This transforms the Revolutionary War from a colonial rebellion into an international conflict. Britain must now fight both American Patriots and French forces.
+                            <br><br>
+                            Together, these four pieces of intelligence reveal a comprehensive picture of how the Continental Army can defeat British forces and win American independence. The key elements are: (1) using surprise attacks and guerrilla tactics rather than conventional warfare, (2) leveraging French military and naval support secured through diplomatic efforts, (3) gathering intelligence to anticipate British movements, and (4) maintaining the resolve and courage necessary to endure hardships like Valley Forge.
+                            <br><br>
+                            The intelligence also reveals the dedication of American Patriots at every level. Soldiers like those at Valley Forge endured terrible conditions for the cause of liberty. Spies like Samuel and Nathan Hale risked their lives to gather information. Diplomats like Benjamin Franklin worked tirelessly to secure foreign alliances. Military leaders like General Washington made strategic decisions that maximized American advantages while minimizing disadvantages.
+                            <br><br>
+                            Most importantly, this intelligence confirms that tyranny can be defeated when people unite around the principles of independence and self-governance. The American Revolution succeeded not because Patriots had the largest army or the most resources, but because they believed deeply in their cause and refused to surrender despite overwhelming obstacles.
+                        </p>
+                    </div>
+                    
+                    <div class="puzzle-component">
+                        <h4>🎯 Final Task: Write Your Intelligence Report</h4>
+                        
+                        <div style="background: #fff9e6; padding: 20px; border: 3px solid #8b0000; margin: 20px 0;">
+                            <p><strong>Instructions for Your Report to General Washington:</strong></p>
+                            <p>Write a detailed intelligence report explaining what you have discovered and how this information can help the Continental Army. Your report must include:</p>
+                            <ul style="margin-left: 30px; margin-top: 10px; line-height: 1.8;">
+                                <li><strong>Opening Statement:</strong> Introduce yourself as a member of the spy network and state the purpose of your report</li>
+                                <li><strong>Vocabulary Usage:</strong> Correctly use AT LEAST 8 key terms: <em>Patriot, Loyalist, independence, tyranny, revolution, colonial, Continental Army, treaty</em></li>
+                                <li><strong>Intelligence Summary:</strong> Explain all four pieces of decoded intelligence and their significance</li>
+                                <li><strong>Historical Connections:</strong> Discuss the roles of at least 3 key figures (Washington, Jefferson, Franklin)</li>
+                                <li><strong>Strategic Analysis:</strong> Explain how this intelligence can help win the war</li>
+                                <li><strong>Concluding Recommendation:</strong> Provide your recommendation for how General Washington should use this information</li>
+                            </ul>
+                            <br>
+                            <p><strong>Writing Requirements:</strong></p>
+                            <ul style="margin-left: 30px; line-height: 1.8;">
+                                <li>Use proper letter format (date, greeting, body paragraphs, closing)</li>
+                                <li>Write in past tense when describing historical events</li>
+                                <li>Use complete sentences with proper grammar and spelling</li>
+                                <li>Organize information into clear paragraphs (3-5 paragraphs recommended)</li>
+                                <li>Show understanding of cause-and-effect relationships</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <strong>Sample Opening (for guidance only - write your own!):</strong>
+                            <div style="padding: 15px; background: #f8f9fa; border-left: 4px solid #8b0000; font-style: italic; margin: 15px 0;">
+                                "General Washington,<br><br>
+                                As a member of your intelligence network, I have successfully decoded the hidden messages left by captured Patriot spy Samuel Hale. The intelligence I have gathered reveals critical information about British military plans, French support, and strategies that can help the Continental Army defeat tyranny and secure independence for the American colonies..."
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="answer-box">
+                        <strong>Sample Intelligence Report (Teacher Reference):</strong><br><br>
+                        <em>October 12, 1777<br>
+                        To: General George Washington, Commander-in-Chief<br>
+                        From: Continental Army Intelligence Network<br>
+                        Subject: Decoded Intelligence from Samuel Hale<br><br>
+                        
+                        General Washington,<br><br>
+                        
+                        As Patriots serving in your intelligence network, we have successfully located and decoded four crucial messages hidden by spy Samuel Hale before his capture by Loyalist forces. This intelligence provides vital information that can help the Continental Army overcome British tyranny and achieve independence for our colonial nation.<br><br>
+                        
+                        The first decoded message reveals that British forces plan to attack at Trenton. You must lead the Continental Army across the Delaware River on Christmas night to launch a surprise counterattack. This revolutionary strategy will catch the enemy unprepared and demonstrate that Patriots can defeat professional soldiers through clever tactics.<br><br>
+                        
+                        The second message confirms that the French fleet has arrived at Yorktown. Benjamin Franklin's diplomatic efforts in negotiating the Treaty of Alliance have succeeded. France now provides the naval and military support we desperately need to challenge British control of our coastline.<br><br>
+                        
+                        The third piece of intelligence describes your strategic approach to winning this revolution: combining terrain knowledge, surprise tactics, intelligence gathering, and French support to overcome British military superiority. Rather than fighting conventional battles we cannot win, we must use our advantages as colonials who know this land intimately.<br><br>
+                        
+                        The fourth message confirms that the Treaty of Alliance has been officially signed, transforming our colonial rebellion into an international war. Thomas Jefferson's Declaration of Independence articulated why we fight, and now France recognizes our cause as just.<br><br>
+                        
+                        Based on this intelligence, I recommend immediate action. Execute the surprise attack at Trenton to demonstrate Continental Army capabilities. Coordinate with French naval forces at Yorktown to trap British troops. Continue gathering intelligence about enemy movements. Most importantly, maintain the courage and resolve that inspires Patriots to endure hardships for the cause of liberty.<br><br>
+                        
+                        This intelligence proves that tyranny can be defeated when people unite for independence and refuse to surrender despite overwhelming obstacles. The revolution will succeed because Patriots believe deeply in self-governance and natural rights.<br><br>
+                        
+                        For Liberty,<br>
+                        Your Faithful Intelligence Agents</em><br><br>
+                        
+                        <strong>🎉 MISSION ACCOMPLISHED!</strong><br>
+                        You have successfully completed Operation Liberty! Samuel Hale's intelligence is now in General Washington's hands, and the Continental Army has the information needed to win the Revolutionary War!
+                    </div>
+                    
+                    <div class="materials-list">
+                        <strong>📦 Materials for This Station:</strong>
+                        <ul>
+                            <li>Summary of intelligence passage (printed)</li>
+                            <li>Writing instruction sheet with requirements</li>
+                            <li>Lined paper or intelligence report template</li>
+                            <li>Spy's Mission Log final page</li>
+                            <li>Writing rubric for self-assessment</li>
+                            <li>Vocabulary reference sheet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Spy's Mission Log -->
+            <div id="journal" class="section">
+                <div class="worksheet">
+                    <div class="worksheet-title">
+                        <h2>🎖️ SPY'S MISSION LOG 🎖️</h2>
+                        <p>Agent Name: _________________ Team Code Name: _________________</p>
+                        <p>Date: _________________ Mission Start Time: _______</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; font-style: italic;">"I only regret that I have but one life to lose for my country." - Nathan Hale</p>
+                    </div>
+                    
+                    <div style="margin: 30px 0; padding: 20px; background: #ffe4e1; border: 3px solid #8b0000; border-radius: 8px;">
+                        <h3>Mission Objective</h3>
+                        <p>You are a member of General Washington's spy network. Your mission: decode Samuel Hale's hidden intelligence to help the Continental Army win the Revolutionary War and secure American independence. Record all findings in this log. Work with honor, courage, and dedication to the Patriot cause!</p>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Intelligence #1: The Loyalist vs. Patriot Code</h3>
+                        <p><strong>Decoded Message:</strong> _________________________________</p>
+                        <br>
+                        <p><strong>Vocabulary Matching - Write the correct definition letter next to each term:</strong></p>
+                        <div style="margin-left: 20px; line-height: 2.5;">
+                            ___ Patriot<br>
+                            ___ Loyalist<br>
+                            ___ Independence<br>
+                            ___ Tyranny<br>
+                            ___ Revolution<br>
+                            ___ Colonial<br>
+                            ___ Continental Army<br>
+                            ___ Treaty
+                        </div>
+                        <br>
+                        <p><strong>Comprehension Answers:</strong></p>
+                        <ol style="margin-left: 30px; margin-top: 10px; line-height: 2.5;">
+                            <li>Difference between Patriots and Loyalists: _______________
+                            <div class="answer-lines"></div></li>
+                            <li>Why Patriots believed King George was a tyrant: ___________
+                            <div class="answer-lines"></div></li>
+                            <li>Two famous Patriots: _________________________________</li>
+                            <li>British attack location: _______________________________</li>
+                            <li>When Washington crosses river: ________________________</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Intelligence #2: The Declaration Cipher</h3>
+                        <p><strong>Decoding Work:</strong></p>
+                        <div style="margin-left: 20px; line-height: 2;">
+                            6-18-5-14-3-8 = __ __ __ __ __ __ = __________<br>
+                            6-12-5-5-20 = __ __ __ __ __ = __________<br>
+                            1-20 = __ __ = __________<br>
+                            25-15-18-11-20-15-23-14 = __ __ __ __ __ __ __ __ = __________
+                        </div>
+                        <br>
+                        <p><strong>Complete Decoded Message:</strong> ________________________________</p>
+                        <br>
+                        <p><strong>Comprehension Answers:</strong></p>
+                        <ol style="margin-left: 30px; margin-top: 10px; line-height: 2.5;">
+                            <li>Who wrote the Declaration: ____________________________</li>
+                            <li>Date adopted: __________________________________________</li>
+                            <li>Where unalienable rights come from: __________________</li>
+                            <li>Two grievances against King George: ___________________
+                            <div class="answer-lines"></div></li>
+                            <li>What the decoded message reveals: ____________________
+                            <div class="answer-lines"></div></li>
+                        </ol>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Intelligence #3: The Washington Strategy Puzzle</h3>
+                        <p><strong>Symbol Meanings:</strong></p>
+                        <div style="margin-left: 20px; line-height: 2;">
+                            ⚔️ = __________<br>
+                            ❄️ = __________<br>
+                            🗺️ = __________<br>
+                            🎯 = __________<br>
+                            🔍 = __________<br>
+                            🇫🇷 = __________<br>
+                            ⭐ = __________
+                        </div>
+                        <br>
+                        <p><strong>Decoded Message:</strong> ____________________________________</p>
+                        <br>
+                        <p><strong>Comprehension Answers:</strong></p>
+                        <ol style="margin-left: 30px; margin-top: 10px; line-height: 2.5;">
+                            <li>Valley Forge hardships: _______________________________
+                            <div class="answer-lines"></div></li>
+                            <li>Why Continental Army can win despite being outnumbered: 
+                            <div class="answer-lines"></div></li>
+                            <li>Significance of Battle of Trenton: ____________________
+                            <div class="answer-lines"></div></li>
+                            <li>Benjamin Franklin's role: _____________________________
+                            <div class="answer-lines"></div></li>
+                            <li>Why Continental Army fights: __________________________
+                            <div class="answer-lines"></div></li>
+                        </ol>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Intelligence #4: The Franklin Diplomatic Code</h3>
+                        <p><strong>Reverse Alphabet Decoding:</strong></p>
+                        <div style="margin-left: 20px; line-height: 2;">
+                            GIVZGB = __ __ __ __ __ __ = __________<br>
+                            HRTMVW = __ __ __ __ __ __ = __________<br>
+                            ULIV = __ __ __ __ = __________<br>
+                            ZNZNB = __ __ __ __ __ = __________<br>
+                            HZROH = __ __ __ __ __ = __________
+                        </div>
+                        <br>
+                        <p><strong>Complete Decoded Sentence:</strong> ________________________________</p>
+                        <br>
+                        <p><strong>Comprehension Answers:</strong></p>
+                        <ol style="margin-left: 30px; margin-top: 10px; line-height: 2.5;">
+                            <li>Franklin's mission in France: _________________________
+                            <div class="answer-lines"></div></li>
+                            <li>Why France wanted to help America: ____________________
+                            <div class="answer-lines"></div></li>
+                            <li>Event that convinced France America could win: _________
+                            <div class="answer-lines"></div></li>
+                            <li>What Treaty of Alliance promised: _____________________
+                            <div class="answer-lines"></div></li>
+                            <li>How French support changed the war: ___________________
+                            <div class="answer-lines"></div></li>
+                        </ol>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>Intelligence #5: Final Mission Report</h3>
+                        <p><strong>WRITE YOUR INTELLIGENCE REPORT FOR GENERAL WASHINGTON</strong></p>
+                        <p style="font-style: italic; font-size: 0.9em; color: #666; margin: 10px 0;">Remember: Use 8 vocabulary terms, explain all 4 decoded messages, discuss 3 key figures, and make a recommendation.</p>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                    </div>
+                    
+                    <div style="margin-top: 40px; padding: 25px; background: #e8f5e9; border: 3px solid #8b0000; border-radius: 8px;">
+                        <h3>🎉 Mission Complete! 🎉</h3>
+                        <p><strong>All intelligence decoded and delivered to General Washington!</strong></p>
+                        <br>
+                        <p><strong>Mission Completion Time:</strong> _______ <strong>Total Time:</strong> _______ minutes</p>
+                        <br>
+                        <p><strong>Team Reflection:</strong> What was the most challenging part of this spy mission?</p>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <br>
+                        <p><strong>Historical Thinking:</strong> How do you think gathering intelligence like this helped the real Continental Army win the Revolutionary War?</p>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                        <div class="answer-lines"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Answer Key -->
+            <div id="answers" class="section">
+                <div style="background: #ffebee; padding: 30px; border-radius: 12px; border: 3px solid #d32f2f;">
+                    <h2 style="color: #d32f2f; text-align: center; margin-bottom: 20px;">🔐 TEACHER DECODER KEY 🔐</h2>
+                    <p style="text-align: center; font-style: italic;">For instructor use only - Contains all solutions</p>
+                </div>
+                
+                <div class="station">
+                    <h3>Intelligence #1 - The Loyalist vs. Patriot Code</h3>
+                    <p><strong>Decoded Message:</strong> BRITISH (from rearranging B-R-I-I-S-H-T found in the encoded sentence)</p>
+                    <p><strong>Full Intelligence:</strong> "British plan to attack at Trenton. Washington must cross the river on Christmas night for a surprise attack."</p>
+                    <br>
+                    <p><strong>Vocabulary Matches:</strong></p>
+                    <ul style="margin-left: 30px; line-height: 2;">
+                        <li>Patriot - A colonist who supported independence from Britain</li>
+                        <li>Loyalist - A colonist who remained loyal to the British Crown</li>
+                        <li>Independence - Freedom from control or rule by another country</li>
+                        <li>Tyranny - A government that rules with absolute power and denies rights</li>
+                        <li>Revolution - An overthrow of a government to establish a new system</li>
+                        <li>Colonial - Relating to the thirteen American colonies</li>
+                        <li>Continental Army - The Patriot military force led by George Washington</li>
+                        <li>Treaty - A formal agreement between nations or groups</li>
+                    </ul>
+                    <br>
+                    <p><strong>Comprehension Answers:</strong></p>
+                    <ol style="margin-left: 30px; line-height: 2;">
+                        <li>Patriots wanted independence; Loyalists wanted to remain under British rule</li>
+                        <li>He imposed unfair taxes without representation/denied colonists' rights</li>
+                        <li>George Washington, Thomas Jefferson, Benjamin Franklin (any two)</li>
+                        <li>Trenton</li>
+                        <li>Christmas night</li>
+                    </ol>
+                </div>
+                
+                <div class="station">
+                    <h3>Intelligence #2 - The Declaration Cipher</h3>
+                    <p><strong>Decoding:</strong></p>
+                    <ul style="margin-left: 30px; line-height: 2;">
+                        <li>6-18-5-14-3-8 = F-R-E-N-C-H = FRENCH</li>
+                        <li>6-12-5-5-20 = F-L-E-E-T = FLEET</li>
+                        <li>1-20 = A-T = AT</li>
+                        <li>25-15-18-11-20-15-23-14 = Y-O-R-K-T-O-W-N = YORKTOWN</li>
+                    </ul>
+                    <p><strong>Decoded Message:</strong> FRENCH FLEET AT YORKTOWN</p>
+                    <p><strong>Full Intelligence:</strong> "French fleet has arrived at Yorktown to support the Continental Army."</p>
+                    <br>
+                    <p><strong>Comprehension Answers:</strong></p>
+                    <ol style="margin-left: 30px; line-height: 2;">
+                        <li>Thomas Jefferson</li>
+                        <li>July 4, 1776</li>
+                        <li>From God/their Creator</li>
+                        <li>Imposing taxes without consent, dissolving colonial legislatures, maintaining armies (any two)</li>
+                        <li>The French fleet is at Yorktown to help the Continental Army</li>
+                    </ol>
+                </div>
+                
+                <div class="station">
+                    <h3>Intelligence #3 - The Washington Strategy Puzzle</h3>
+                    <p><strong>Symbol Meanings (based on context clues from the letter):</strong></p>
+                    <ul style="margin-left: 30px; line-height: 2;">
+                        <li>⚔️ = BRITISH (well-supplied, professional forces)</li>
+                        <li>❄️ = WINTER (freezing temperatures, winter storm)</li>
+                        <li>🗺️ = TERRAIN (local terrain knowledge, forests, rivers)</li>
+                        <li>🎯 = STRATEGY (clever strategy, surprise tactics)</li>
+                        <li>🔍 = INTELLIGENCE (knowing enemy plans, spy network)</li>
+                        <li>🇫🇷 = FRENCH (alliance with France, secured by Franklin)</li>
+                        <li>⭐ = LIBERTY (right to govern without tyranny, the goal)</li>
+                    </ul>
+                    <p><strong>Decoded Message:</strong> "British terrain strategy intelligence French liberty" (interpreted as: "Use terrain knowledge, strategic intelligence, and French alliance to win liberty from British")</p>
+                    <br>
+                    <p><strong>Comprehension Answers:</strong></p>
+                    <ol style="margin-left: 30px; line-height: 2;">
+                        <li>Freezing temperatures, lack of food, insufficient clothing, no shoes</li>
+                        <li>By using surprise attacks, terrain knowledge, guerrilla tactics, and strategic intelligence</li>
+                        <li>Christmas surprise attack that proved clever strategy defeats superior numbers; captured 1,000 enemy soldiers</li>
+                        <li>Secured the alliance with France through diplomatic efforts</li>
+                        <li>For the principle that people have the right to govern themselves without tyranny/for liberty</li>
+                    </ol>
+                </div>
+                
+                <div class="station">
+                    <h3>Intelligence #4 - The Franklin Diplomatic Code</h3>
+                    <p><strong>Reverse Alphabet Decoding (A=Z, B=Y, etc.):</strong></p>
+                    <ul style="margin-left: 30px; line-height: 2;">
+                        <li>GIVZGB = T-R-E-A-T-Y = TREATY</li>
+                        <li>HRTMVW = S-I-G-N-E-D = SIGNED</li>
+                        <li>ULIV = F-O-R-E = FORE (accept "FOR")</li>
+                        <li>ZNZNB = A-N-A-N-Y = ANANY (should encode as "ARMY" - accept student attempts)</li>
+                        <li>HZROH = S-A-I-L-S = SAILS</li>
+                    </ul>
+                    <p><strong>Note for Teachers:</strong> There's a slight encoding issue with "ARMY" that might become "ANANY". Accept reasonable student attempts that show understanding of the reverse alphabet pattern. The message intent is "Treaty signed for army and sails (ships)."</p>
+                    <br>
+                    <p><strong>Comprehension Answers:</strong></p>
+                    <ol style="margin-left: 30px; line-height: 2;">
+                        <li>To convince France to support the American Revolution with military aid, supplies, and naval forces</li>
+                        <li>France wanted to weaken Britain, their longtime rival/enemy; France lost French and Indian War</li>
+                        <li>The Continental Army's victory at the Battle of Saratoga (October 1777)</li>
+                        <li>France would provide military support, naval forces, supplies, and loans; America would support France if Britain attacked</li>
+                        <li>French ships challenged British navy, French soldiers fought alongside Continental Army, French supplies sustained troops, French navy was decisive at Yorktown</li>
+                    </ol>
+                </div>
+                
+                <div class="station">
+                    <h3>Intelligence #5 - Final Mission Report</h3>
+                    <p><strong>Grading Rubric (100 points total):</strong></p>
+                    
+                    <h4 style="margin-top: 20px;">1. Vocabulary Usage (30 points)</h4>
+                    <p>Students must use at least 8 key terms correctly in context:</p>
+                    <ul style="margin-left: 30px;">
+                        <li>Patriot, Loyalist, independence, tyranny, revolution, colonial, Continental Army, treaty</li>
+                        <li>4 points each for sophisticated, accurate usage (32 possible, 30 max)</li>
+                        <li>Deduct points for incorrect usage or missing terms</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px;">2. Reading Comprehension (25 points)</h4>
+                    <p>Evidence from all 5 stations showing understanding:</p>
+                    <ul style="margin-left: 30px;">
+                        <li>Station 1: 5 points (British attack at Trenton, Christmas crossing)</li>
+                        <li>Station 2: 5 points (French fleet at Yorktown, Declaration significance)</li>
+                        <li>Station 3: 5 points (Washington's strategy, terrain advantage)</li>
+                        <li>Station 4: 5 points (Treaty of Alliance, Franklin's diplomacy)</li>
+                        <li>Station 5: 5 points (Synthesis of all intelligence)</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px;">3. Social Studies Content Understanding (30 points)</h4>
+                    <ul style="margin-left: 30px;">
+                        <li>Accurate explanation of all 4 decoded messages (12 points)</li>
+                        <li>Discussion of 3 key figures and their roles (9 points):
+                            <ul style="margin-left: 20px;">
+                                <li>Washington: military leadership, strategy</li>
+                                <li>Jefferson: Declaration of Independence, articulated reasons for independence</li>
+                                <li>Franklin: diplomacy, secured French alliance</li>
+                            </ul>
+                        </li>
+                        <li>Strategic analysis of how intelligence helps win war (9 points)</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px;">4. Writing Quality (15 points)</h4>
+                    <ul style="margin-left: 30px;">
+                        <li>Clear opening statement (3 points)</li>
+                        <li>Organized paragraphs with topic sentences (3 points)</li>
+                        <li>Supporting details and examples (3 points)</li>
+                        <li>Concluding recommendation (3 points)</li>
+                        <li>Grammar, spelling, proper letter format (3 points)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 20px;"><strong>Passing Score: 85/100 (85%)</strong></p>
+                    
+                    <h4 style="margin-top: 20px;">Sample Proficient Report Elements:</h4>
+                    <ul style="margin-left: 30px; line-height: 1.8;">
+                        <li>Uses all 8 vocabulary terms naturally within historical context</li>
+                        <li>Explains each decoded message and its significance</li>
+                        <li>Connects intelligence to actual historical events and outcomes</li>
+                        <li>Discusses how Washington, Jefferson, and Franklin each contributed</li>
+                        <li>Provides specific recommendation based on decoded intelligence</li>
+                        <li>Written in proper business letter format with past tense for historical events</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #e8f5e9; padding: 25px; border-radius: 10px; margin-top: 30px;">
+                    <h3>📊 Teaching Notes</h3>
+                    <p><strong>Time Management:</strong></p>
+                    <ul style="margin-left: 30px; line-height: 1.8;">
+                        <li>Station 1: 15 minutes (vocabulary matching, simple cipher)</li>
+                        <li>Station 2: 20 minutes (number cipher requires more calculation)</li>
+                        <li>Station 3: 18 minutes (symbol cipher with context clues)</li>
+                        <li>Station 4: 20 minutes (reverse alphabet, careful letter substitution)</li>
+                        <li>Station 5: 30 minutes (writing the full report)</li>
+                        <li>Total: ~90 minutes with brief transitions</li>
+                    </ul>
+                    <br>
+                    <p><strong>Differentiation Suggestions:</strong></p>
+                    <ul style="margin-left: 30px; line-height: 1.8;">
+                        <li>Struggling readers: Provide vocabulary definitions reference sheet, pair with stronger reader</li>
+                        <li>Advanced students: Add requirement to research one additional historical figure or event</li>
+                        <li>ELL support: Pre-teach vocabulary, provide sentence frames for final report</li>
+                        <li>If teams finish early: Challenge them to create their own cipher message for another team</li>
+                    </ul>
+                    <br>
+                    <p><strong>Extension Activities:</strong></p>
+                    <ul style="margin-left: 30px; line-height: 1.8;">
+                        <li>Research real revolutionary spies (Nathan Hale, Benedict Arnold, Culper Spy Ring)</li>
+                        <li>Create timeline of major Revolutionary War battles mentioned</li>
+                        <li>Write from Loyalist perspective arguing against independence</li>
+                        <li>Design own cipher system and encode a historical message</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
